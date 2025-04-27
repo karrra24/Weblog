@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 2 Blogging</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .hero {
+            position: relative;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+        
+        #bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #6e8efb;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <!-- Background Video -->
+        <video autoplay muted loop id="bg-video">
+            <source src="background1.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        
+        <!-- Dark overlay to improve text visibility -->
+        <div class="hero-overlay"></div>
+        
+        <!-- Content container -->
+        <div class="hero-content">
+            <h1>Welcome to our Presentation</h1>
+            <p>Objectives: 
+            At the end of this lesson, the students should be able to:
+            create a blog promoting one's unique culture and tradition; and
+            be creative in presenting one-selves.</p>
+            <a href="blogging.html" class="btn">Start Learning</a>
+        </div>
+    </div>
+</body>
+</html>
