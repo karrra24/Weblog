@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Quiz Game Test Your knowledge</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: linear-gradient(120deg, #89f7fe, #66a6ff);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #222;
+      user-select: none;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Make body scrollable if content is taller than viewport */
+    @media (max-height: 550px) {
+      body {
+        align-items: flex-start;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        overflow-y: auto;
+      }
+    }
+
+    .quiz-container {
+      background: white;
+      max-width: 650px;
+      width: 100%;
+      padding: 40px 50px 50px;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+      box-sizing: border-box;
+      flex-shrink: 0; /* prevent shrinking on small heights */
+    }
+
+    /* Screen styles */
+    #start-screen, #quiz-screen, #scoreboard-screen {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    #quiz-screen, #scoreboard-screen {
+      display: none;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: none;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #666;
+      user-select: none;
+    }
+    .btn {
+      background: linear-gradient(45deg, #6e8efb, #a777e3);
+      border: none;
+      color: white;
+      padding: 14px 35px;
+      border-radius: 50px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(110, 142, 251, 0.5);
+      transition: all 0.3s ease;
+      user-select: none;
+      outline-offset: 4px;
+    }
+    .btn:hover,
+    .btn:focus {
+      background: linear-gradient(45deg, #4e6eef, #7f52d9);
+      box-shadow: 0 8px 20px rgba(110, 142, 251, 0.7);
+      outline: none;
+    }
+    /* Question Number */
+    #question-number {
+      font-weight: 700;
+      color: #6e8efb;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+    /* Question text */
+    #question-text {
+      font-size: 1.7rem;
+      font-weight: 600;
+      padding-bottom: 25px;
+      border-bottom: 2px solid #eee;
+      color: #444;
+      min-height: 70px;
+      user-select: none;
+    }
+    /* Choices list */
+    ul#choices {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+    ul#choices li {
+      background: #f0f7ff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(110, 142, 251, 0.15);
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+    }
+    ul#choices li:hover:not(.disabled) {
+      background: #c7dbff;
+      box-shadow: 0 6px 20px rgba(110, 142, 251, 0.4);
+    }
+    /* Disabled answers after selection */
+    ul#choices li.disabled {
+      cursor: default;
+      opacity: 0.7;
+    }
+    /* Selected answers */
+    ul#choices li.selected.correct {
+      background: #a8e6a2;
+      box-shadow: 0 6px 20px rgba(72, 167, 14, 0.5);
+      color: #2e7d32;
+    }
+    ul#choices li.selected.wrong {
+      background: #f9a7a7;
+      box-shadow: 0 6px 20px rgba(244, 67, 54, 0.5);
+      color: #c62828;
+    }
+    /* Feedback text */
+    #feedback {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 25px;
+      min-height: 28px;
+      user-select: none;
+    }
+    #feedback.correct {
+      color: #2e7d32;
+    }
+    #feedback.wrong {
+      color: #c62828;
+    }
+    #correct-answer {
+      font-size: 1rem;
+      color: #555;
+      font-style: italic;
+      margin-top: 8px;
+      min-height: 22px;
+      user-select: none;
+    }
+    /* Buttons */
+    .btn-next {
+      margin-top: 30px;
+      display: none;
+    }
+    .btn-restart {
+      display: none;
+      margin-top: 30px;
+      background: #4caf50;
+      box-shadow: 0 6px 15px rgba(76,175,80,0.5);
+    }
+    .btn-restart:hover,
+    .btn-restart:focus {
+      background: #388e3c;
+      box-shadow: 0 8px 20px rgba(56, 142, 60, 0.7);
+      outline: none;
+    }
+    /* Scoreboard */
+    #scoreboard-screen {
+      padding: 20px 10px;
+      user-select: none;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    #scoreboard-screen h2 {
+      font-size: 2.4rem;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    #scoreboard-list {
+      font-size: 1.2rem;
+      color: #444;
+      margin: 15px 0 40px 0;
+      list-style-type: none;
+      padding: 0;
+      user-select: none;
+    }
+    #scoreboard-list li {
+      margin-bottom: 8px;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      ul#choices {
+        grid-template-columns: 1fr;
+      }
+      .quiz-container {
+        padding: 30px 20px 40px;
+        min-height: auto;
+      }
+      h1 {
+        font-size: 2.3rem;
+      }
+      #question-text {
+        font-size: 1.4rem;
+      }
+      .btn {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+      }
+      #scoreboard-screen h2 {
+        font-size: 2rem;
+      }
+      #scoreboard-list {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="quiz-container" role="main" aria-live="polite" aria-atomic="true">
+
+  <!-- START SCREEN -->
+  <section id="start-screen" aria-label="Start Quiz Screen">
+    <h1>Welcome to our Quiz Game</h1>
+    <p class="subtitle">This will test your blogging knowledge with 10 interactive questions!</p>
+    <button id="btn-start" class="btn" aria-label="Start Quiz">Start Quiz</button>
+  </section>
+
+  <!-- QUIZ SCREEN -->
+  <section id="quiz-screen" aria-label="Quiz Questions Screen" tabindex="0">
+    <div id="question-number"></div>
+    <div id="question-text"></div>
+
+    <ul id="choices" role="listbox" aria-labelledby="question-text">
+      <!-- Choices injected here -->
+    </ul>
+
+    <div id="feedback" role="alert"></div>
+    <div id="correct-answer"></div>
+
+    <button id="btn-next" class="btn btn-next" disabled>Next Question</button>
+    <button id="btn-restart" class="btn btn-restart">Restart Quiz</button>
+  </section>
+
+  <!-- SCOREBOARD SCREEN -->
+  <section id="scoreboard-screen" aria-label="Scoreboard Screen">
+    <h2>Your Quiz Results</h2>
+    <ul id="scoreboard-list"></ul>
+    <button id="btn-scoreboard-restart" class="btn btn-restart">Play Again</button>
+  </section>
+</div>
+
+<!-- Audio Elements -->
+<audio id="audio-correct" src="win.mp3" preload="auto"></audio>
+<audio id="audio-wrong" src="lose.mp3" preload="auto"></audio>
+
+<script>
+  const QUESTIONS = [
+    {
+      question: "What is a blog?",
+      choices: [
+        "A type of social media",
+        "A website where content is posted regularly",
+        "An online store",
+        "A messaging app"
+      ],
+      answer: 1,
+    },
+    {
+      question: "Which platform is NOT typically used for blogging?",
+      choices: [
+        "WordPress",
+        "Medium",
+        "Spotify",
+        "Blogger"
+      ],
+      answer: 2,
+    },
+    {
+      question: "What is important when starting a blog?",
+      choices: [
+        "Choosing a niche",
+        "Writing random posts",
+        "Ignoring SEO",
+        "Posting once every few years"
+      ],
+      answer: 0,
+    },
+    {
+      question: "Why is consistency important in blogging?",
+      choices: [
+        "To confuse readers",
+        "To build a loyal audience",
+        "Because it sounds better",
+        "To increase followers immediately"
+      ],
+      answer: 1,
+    },
+    {
+      question: "What does SEO stand for?",
+      choices: [
+        "Search Engine Optimization",
+        "Social Engagement Operation",
+        "Site External Outreach",
+        "Systematic Event Organizer"
+      ],
+      answer: 0,
+    },
+    {
+      question: "What kind of posts often appear first in a blog?",
+      choices: [
+        "Oldest posts",
+        "Featured posts",
+        "Most commented posts",
+        "Newest posts"
+      ],
+      answer: 3,
+    },
+    {
+      question: "Which is an important skill improved by blogging?",
+      choices: [
+        "Cooking",
+        "Golf",
+        "Writing",
+        "Painting"
+      ],
+      answer: 2,
+    },
+    {
+      question: "What is a key reason to choose a niche?",
+      choices: [
+        "To attract a wider audience who’re interested",
+        "To confuse readers",
+        "To avoid making content",
+        "To write about everything"
+      ],
+      answer: 0,
+    },
+    {
+      question: "Which is a popular blogging platform?",
+      choices: [
+        "Spotify",
+        "WordPress",
+        "LinkedIn",
+        "Instagram"
+      ],
+      answer: 1,
+    },
+    {
+      question: "A blog can be monetized by:",
+      choices: [
+        "Ads and sponsorships",
+        "Writing emails only",
+        "Ignoring SEO",
+        "Deleting posts regularly"
+      ],
+      answer: 0,
+    }
+  ];
+
+  const startScreen = document.getElementById('start-screen');
+  const quizScreen = document.getElementById('quiz-screen');
+  const scoreboardScreen = document.getElementById('scoreboard-screen');
+  const btnStart = document.getElementById('btn-start');
+  const questionNumberEl = document.getElementById('question-number');
+  const questionTextEl = document.getElementById('question-text');
+  const choicesEl = document.getElementById('choices');
+  const feedbackEl = document.getElementById('feedback');
+  const correctAnswerEl = document.getElementById('correct-answer');
+  const btnNext = document.getElementById('btn-next');
+  const btnRestart = document.getElementById('btn-restart');
+  const scoreboardList = document.getElementById('scoreboard-list');
+  const btnScoreboardRestart = document.getElementById('btn-scoreboard-restart');
+
+  const audioCorrect = document.getElementById('audio-correct');
+  const audioWrong = document.getElementById('audio-wrong');
+
+  let currentQuestionIndex = 0;
+  let answered = false;
+  let skippedQuestions = [];
+  let wrongQuestions = [];
+  let stats = {
+    correct: 0,
+    wrong: 0,
+    skipped: 0
+  };
+
+  btnStart.addEventListener('click', () => {
+    resetGame();
+    startScreen.style.display = 'none';
+    scoreboardScreen.style.display = 'none';
+    quizScreen.style.display = 'block';
+    quizScreen.focus();
+    loadQuestion();
+  });
+
+  btnRestart.addEventListener('click', () => {
+    resetGame();
+    startScreen.style.display = 'block';
+    scoreboardScreen.style.display = 'none';
+    quizScreen.style.display = 'none';
+    btnStart.focus();
+  });
+
+  btnScoreboardRestart.addEventListener('click', () => {
+    resetGame();
+    startScreen.style.display = 'block';
+    scoreboardScreen.style.display = 'none';
+    quizScreen.style.display = 'none';
+    btnStart.focus();
+  });
+
+  function resetGame() {
+    currentQuestionIndex = 0;
+    answered = false;
+    skippedQuestions = [];
+    wrongQuestions = [];
+    stats.correct = 0;
+    stats.wrong = 0;
+    stats.skipped = 0;
+    btnNext.disabled = true;
+    btnNext.style.display = 'none';
+    btnRestart.style.display = 'none';
+    feedbackEl.textContent = '';
+    correctAnswerEl.textContent = '';
+  }
+
+  function loadQuestion() {
+    answered = false;
+    btnNext.disabled = true;
+    btnNext.style.display = 'inline-block';
+    btnRestart.style.display = 'none';
+
+    let q;
+    let isBonusRound = false;
+
+    if (currentQuestionIndex >= QUESTIONS.length) {
+      let bonusIndex = currentQuestionIndex - QUESTIONS.length;
+      if (bonusIndex < skippedQuestions.length) {
+        q = QUESTIONS[skippedQuestions[bonusIndex]];
+        questionNumberEl.textContent = `Bonus Question ${bonusIndex + 1} of ${skippedQuestions.length + wrongQuestions.length}`;
+        isBonusRound = true;
+      } else if (bonusIndex - skippedQuestions.length < wrongQuestions.length) {
+        const wrongIndex = bonusIndex - skippedQuestions.length;
+        q = QUESTIONS[wrongQuestions[wrongIndex]];
+        questionNumberEl.textContent = `Bonus Question ${skippedQuestions.length + wrongIndex + 1} of ${skippedQuestions.length + wrongQuestions.length}`;
+        isBonusRound = true;
+      } else {
+        showScoreboard();
+        return;
+      }
+    } else if (currentQuestionIndex < QUESTIONS.length) {
+      q = QUESTIONS[currentQuestionIndex];
+      questionNumberEl.textContent = `Question ${currentQuestionIndex + 1} of ${QUESTIONS.length}`;
+    } else {
+      showScoreboard();
+      return;
+    }
+
+    questionTextEl.textContent = q.question;
+
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+    correctAnswerEl.textContent = '';
+
+    choicesEl.innerHTML = '';
+
+    q.choices.forEach((choice, index) => {
+      const li = document.createElement('li');
+      li.textContent = choice;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'option');
+      li.addEventListener('click', () => selectAnswer(index, li, q, isBonusRound));
+      li.addEventListener('keypress', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectAnswer(index, li, q, isBonusRound);
+        }
+      });
+      choicesEl.appendChild(li);
+    });
+  }
+
+  function selectAnswer(selectedIndex, liEl, question, isBonus) {
+    if (answered) return;
+    answered = true;
+    btnNext.disabled = false;
+
+    const correctIndex = question.answer;
+    const choiceLis = choicesEl.querySelectorAll('li');
+
+    choiceLis.forEach((li, idx) => {
+      li.classList.add('disabled');
+      li.setAttribute('aria-disabled', 'true');
+
+      if (idx === correctIndex) {
+        li.classList.add('selected', 'correct');
+        li.setAttribute('aria-label', li.textContent + " — correct answer");
+      }
+      if (idx === selectedIndex && idx !== correctIndex) {
+        li.classList.add('selected', 'wrong');
+        li.setAttribute('aria-label', li.textContent + " — your answer, incorrect");
+      }
+    });
+
+    if (selectedIndex === correctIndex) {
+      feedbackEl.textContent = "Correct! 🎉";
+      feedbackEl.classList.add('correct');
+      stats.correct++;
+      audioCorrect.currentTime = 0;
+      audioCorrect.play();
+    } else {
+      feedbackEl.textContent = "Oops! That's not right.";
+      feedbackEl.classList.add('wrong');
+      correctAnswerEl.textContent = "The correct answer is: " + question.choices[correctIndex];
+      stats.wrong++;
+      audioWrong.currentTime = 0;
+      audioWrong.play();
+      if (!isBonus) {
+        const qIndex = QUESTIONS.indexOf(question);
+        if (!wrongQuestions.includes(qIndex)) {
+          wrongQuestions.push(qIndex);
+        }
+      }
+    }
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (!answered && currentQuestionIndex < QUESTIONS.length) {
+      if (!skippedQuestions.includes(currentQuestionIndex)) {
+        skippedQuestions.push(currentQuestionIndex);
+        stats.skipped++;
+      }
+    }
+    currentQuestionIndex++;
+    if (currentQuestionIndex >= QUESTIONS.length + skippedQuestions.length + wrongQuestions.length) {
+      showScoreboard();
+    } else {
+      btnNext.disabled = true;
+      btnNext.style.display = 'none';
+      loadQuestion();
+      quizScreen.focus();
+    }
+  });
+
+  btnRestart.addEventListener('click', () => {
+    resetGame();
+    startScreen.style.display = 'block';
+    scoreboardScreen.style.display = 'none';
+    quizScreen.style.display = 'none';
+    btnStart.focus();
+  });
+
+  btnScoreboardRestart.addEventListener('click', () => {
+    resetGame();
+    startScreen.style.display = 'block';
+    scoreboardScreen.style.display = 'none';
+    quizScreen.style.display = 'none';
+    btnStart.focus();
+  });
+
+  function showScoreboard() {
+    quizScreen.style.display = 'none';
+    scoreboardScreen.style.display = 'block';
+
+    scoreboardList.innerHTML = `
+      <li>Total Questions: ${QUESTIONS.length}</li>
+      <li>Correct Answers: ${stats.correct}</li>
+      <li>Wrong Answers: ${stats.wrong}</li>
+      <li>Skipped Questions (answered in bonus round): ${stats.skipped}</li>
+      <li><strong>Final Score: ${stats.correct} / ${QUESTIONS.length}</strong></li>
+    `;
+  }
+</script>
+</body>
+</html>

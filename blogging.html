@@ -1,136 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogging Guide</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: white;
-            margin: 0;
-        }
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            padding: 25px;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .card h2 {
-            color: #6e8efb;
-            margin-top: 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-        .nav a {
-            text-decoration: none;
-            color: #6e8efb;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .nav a:hover {
-            background-color: #f0f7ff;
-        }
-        .card p {
-            color: #666;
-        }
-        .card img {
-            width: 100%;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blogging Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: white;
+      margin: 0;
+    }
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .card h2 {
+      color: #6e8efb;
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    .card p {
+      color: #666;
+    }
+    .card img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #6e8efb;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .nav a:hover {
+      background-color: #f0f7ff;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Blogging Essentials</h1>
-            <p>Everything you need to know about starting and maintaining a successful blog</p>
-        </div>
-    </header>
-
+  <header>
     <div class="container">
-        <div class="card-container">
-            <div class="card" onclick="window.location.href='what-is-blog.html'">
-                <img src="pic1.jpeg" alt="What is a Blog?">
-                <h2>What is a Blog?</h2>
-                <p>Learn about what blogs are and how they can be used for personal and professional purposes.</p>
-                <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
-            </div>
-
-            <div class="card" onclick="window.location.href='why-blog.html'">
-                <img src="pic2.jpeg" alt="Why Start a Blog?">
-                <h2>Why Start a Blog?</h2>
-                <p>Discover the many benefits of blogging and how it can help you express yourself and build a brand.</p>
-                <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
-            </div>
-
-            <div class="card" onclick="window.location.href='how-to-start.html'">
-                <img src="pic3.jpeg" alt="How to Start a Blog">
-                <h2>How to Start a Blog</h2>
-                <p>Step-by-step guide on launching your own blog from choosing a niche to publishing content.</p>
-                <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
-            </div>
-
-            <div class="card" onclick="window.location.href='blogging-tips.html'">
-                <img src="pic4.jpeg" alt="Blogging Success Tips">
-                <h2>Blogging Success Tips</h2>
-                <p>Essential advice to help you grow and maintain a successful blog over time.</p>
-                <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
-            </div>
-
-            <div class="card" onclick="window.location.href='blogging-case-studies.html'">
-                <img src="pic1.jpeg" alt="Blogging Case Studies">
-                <h2>Blogging Case Studies</h2>
-                <p>Learn from real-life examples of bloggers who turned their passion into success.</p>
-                <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
-            </div>
-        </div>
-
-        <div class="nav">
-            <a href="index.html">← Back to Home</a>
-            <a href="blogging-case-studies.html">Read Blogging Case Studies →</a>
-        </div>
+      <h1>Blogging Essentials</h1>
+      <p>Everything you need to know about starting and maintaining a successful blog</p>
     </div>
+  </header>
+
+  <div class="container">
+    <div class="card-container">
+      <div class="card" onclick="window.location.href='what-is-blog.html'">
+        <img src="pic1.jpeg" alt="What is a Blog?">
+        <h2>What is a Blog?</h2>
+        <p>Learn about what blogs are and how they can be used for personal and professional purposes.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='why-blog.html'">
+        <img src="pic2.jpeg" alt="Why Start a Blog?">
+        <h2>Why Start a Blog?</h2>
+        <p>Discover the many benefits of blogging and how it can help you express yourself and build a brand.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='how-to-start.html'">
+        <img src="pic3.jpeg" alt="How to Start a Blog">
+        <h2>How to Start a Blog</h2>
+        <p>Step-by-step guide on launching your own blog from choosing a niche to publishing content.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='blogging-tips.html'">
+        <img src="pic4.jpeg" alt="Blogging Success Tips">
+        <h2>Blogging Success Tips</h2>
+        <p>Essential advice to help you grow and maintain a successful blog over time.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='blogging-case-studies.html'">
+        <img src="pic1.jpeg" alt="Blogging Case Studies">
+        <h2>Blogging Case Studies</h2>
+        <p>Learn from real-life examples of bloggers who turned their passion into success.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to explore →</p>
+      </div>
+      
+      <!-- New Games subtopic card -->
+      <div class="card" onclick="window.location.href='games.html'">
+        <img src="pic-games.jpeg" alt="Blogging Games and Quizzes" style="max-height:150px; object-fit:cover; border-radius: 8px; margin-bottom: 15px;">
+        <h2>Quiz Game</h2>
+        <p>Test your blogging knowledge with interactive games and quizzes designed to make learning fun.</p>
+        <p style="color: #6e8efb; font-weight: bold;">Click to play →</p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <a href="index.html">← Back to Home</a>
+      <a href="blogging-case-studies.html">Read Blogging Case Studies →</a>
+    </div>
+  </div>
 </body>
 </html>
