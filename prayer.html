@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PRAYER - Class Presentation</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+      color: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .slide {
+      max-width: 900px;
+      background: rgba(0,0,0,0.5);
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 5rem;
+      font-weight: 700;
+      margin-bottom: 0.2em;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 1.5em;
+      font-style: italic;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    .content {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      margin-bottom: 2.5em;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
+
+    button.next-btn {
+      background-color: #e94e77;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgba(233,78,119,0.6);
+    }
+
+    button.next-btn:hover {
+      background-color: #d03f67;
+      box-shadow: 0 7px 20px rgba(208,63,103,0.8);
+    }
+
+    /* Audio controls style */
+    audio {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      outline: none;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.7));
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 3.5rem;
+      }
+      .content {
+        font-size: 1.1rem;
+      }
+      button.next-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide" role="main">
+    <h1>OPENING PRAYER</h1>
+    <div class="subtitle">Let us bow our heads and feel the presence of God</div>
+    <div class="content">
+      <p>
+        
+      </p>
+    </div>
+
+    <button class="next-btn" onclick="location.href='index.html'">Next</button>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bg-music" src="prayer-music.mp3" autoplay loop controls>
+    Your browser does not support the audio element.
+  </audio>
+
+</body>
+</html>
